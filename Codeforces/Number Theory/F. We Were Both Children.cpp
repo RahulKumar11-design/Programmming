@@ -25,28 +25,25 @@ void solve() {
     // Your code here
     int n;
     cin >> n;
-    unordered_map<int,int> mp; 
-    vector<int> ct(n+1,0);
+    vector<int> hop_length(n); 
+    vector<int> freq(n+1,0);//max n = 2e5 
+    vector<int> trapped_frogs(n+1,0);
 
     for(int i=0;i<n;i++){
-        int a;
-        cin >> a;
-        mp[a]++;
+        cin >> hop_length[i];
+        if(hop_length[i]<=n) freq[hop_length[i]]++;
     }
 
-    for(auto& [i,freq]:mp){
-        for(int j=i;j<=n;j+=i){
-            ct[j]+=freq;
+    for(int h=1;h<=n;h++){
+        for(int j=h;j<=n;j+=h){
+            trapped_frogs[j]+=freq[h];
         }
     }
 
-    int max_frogs = 0,pos=0;
+    int max_frogs=0;
 
     for(int i=1;i<=n;i++){
-        if(max_frogs<ct[i]){
-            max_frogs = ct[i];
-            pos=i;
-        }
+       max_frogs = max(max_frogs,trapped_frogs[i]);
     }
 
     cout << max_frogs << "\n";
