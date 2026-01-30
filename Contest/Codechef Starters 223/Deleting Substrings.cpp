@@ -19,36 +19,64 @@ void fast_io() {
 
 const int MOD = 1e9 + 7;
 const ll INF = 1e18;
-const int N = 2e5 + 5;
+const int N = 1e5 + 1;
+
+int dp[200005][105][2];
+
+int rec(string &s,string &t,int i,int j,bool prev_taken){
+    if(i==s.length()){
+        if(j==t.length()){
+            return 0;
+        }else{
+            return -1;//invalid
+        }
+    }else if (j == t.length()) {
+        // delete remaining S in one operation
+        return 1;
+    }
+
+
+    if(dp[i][j][prev_taken]!=INT_MAX){
+        return dp[i][j][prev_taken];
+    }
+    int take = -1;
+
+    if(s[i]==t[j]){
+        take = rec(s,t,i+1,j+1,true); 
+    }
+
+    int not_take = rec(s,t,i+1,j,false);
+
+    if(not_take!=-1){
+        not_take+=(prev_taken?1:0);
+        if(take!=-1){
+            return dp[i][j][prev_taken] = min(take,not_take);
+        }else{
+            return dp[i][j][prev_taken] = not_take;
+        }
+    }else if(take!=-1){
+        return dp[i][j][prev_taken] = take;
+    }else{
+        return dp[i][j][prev_taken] = -1;
+    }
+}
 
 void solve() {
     // Your code here
-    int N,M;
-    cin >> N >> M;
-    string S,T;
-    cin >> S >> T;
+    int n,m;
+    cin >> n >> m;
+    string s,t;
+    cin >> s >> t;
 
-    const int INF = 1e9;
-    vector<vector<int>> dp(N+1, vector<int>(M+1, INF));
-
-    dp[0][0] = 0;
-    for(int i=1;i<=N;i++)
-        dp[i][0] = 1;
-
-    for(int i=1;i<=N;i++){
-        for(int j=0;j<=M;j++){
-            dp[i][j] = min(dp[i][j], dp[i-1][j] + 1);
-
-            if(j>0 && S[i-1]==T[j-1]){
-                dp[i][j] = min(dp[i][j], dp[i-1][j-1]);
-            }
+    for(int i=0;i<=n;i++){
+        for(int j=0;j<=m;j++){
+            dp[i][j][0]=INT_MAX;
+            dp[i][j][1]=INT_MAX;
         }
     }
 
-    int ans = dp[N][M];
-    if(ans >= INF) cout << -1 << "\n";
-    else cout << ans << "\n";
-    
+    cout << rec(s,t,0,0,true) << "\n";
+
 }
 
 int32_t main() {
