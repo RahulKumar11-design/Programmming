@@ -21,45 +21,6 @@ const int MOD = 1e9 + 7;
 const ll INF = 1e18;
 const int N = 2e5 + 5;
 
-int dp[N][2][2];
-
-int rec(vector<int>& p,int k,int i,int j,bool type,bool trans_end){
-    if(j==p.size()){
-        return 0;
-    }
-    if(dp[j][type][trans_end]!=-1){
-        return dp[j][type][trans_end];
-    }
-    int wins=0;
-    if(!trans_end){
-        //buy first
-        int buy = rec(p,k,j,j+1,1,1);
-
-        int sell = rec(p,k,j,j+1,0,1);
-
-        int skip = rec(p,k,i,j+1,0,0);
-
-        wins = max(buy,sell);
-        wins = max(wins,skip);
-    }else{
-        int buy=0,sell=0;
-        if(type==0){
-            if(p[i]-p[j]-k>0)
-                buy = 1+rec(p,k,j,j+1,0,0);
-        }else{
-            if(p[j]-p[i]-k>0)
-                sell = 1+rec(p,k,j,j+1,0,0);
-        }
-        wins = max(buy,sell);
-
-        int skip = rec(p,k,i,j+1,type,1);
-
-        wins = max(wins,skip);
-    }
-
-    return dp[j][type][trans_end] = wins;
-}
-
 void solve() {
     // Your code here
     int n,k;
@@ -68,13 +29,27 @@ void solve() {
 
     for(int i=0;i<n;i++) cin >> p[i];
 
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            dp[i][j][0]=dp[i][j][1]=-1;
+    if(n==1){
+        cout << "0\n";
+        return;
+    }
+
+    int mini=p[0],maxi=p[0],wins=0;
+
+    for(int i=1;i<n;i++){
+        mini = min(mini,p[i]);
+        maxi = max(maxi,p[i]);
+
+        if(maxi-mini>k){
+            wins++;
+            if(i+1<n){
+                mini = p[i+1];
+                maxi = p[i+1];
+            }
         }
     }
 
-    cout << rec(p,k,0,0,0,0) << endl;
+    cout << wins << "\n";
 }
 
 int32_t main() {
