@@ -33,16 +33,41 @@ void fast_io() {
 
 const int MOD = 1e9 + 7;
 const ll INF = 1e18;
-const int N = 2e5 + 5;
+const int N = 1e6+1;
+bool isPossible[N];
 
 void solve() {
     int n;
     cin >> n;
-   
+
+    if(isPossible[n]){
+        cout << "Yes\n";
+    }else{
+        cout << "No\n";
+    }
+
+
 }
 
 int32_t main() {
     fast_io();
+
+    for(int i=0;i<N;i++) isPossible[i]=false;
+
+    //precompute
+    for(ll k=2;k<1e4;k++){
+        long long current = k*k*k;
+
+        while((current-1)/(k-1)<=N){
+            long long sum = (current-1)/(k-1);
+
+            if(sum<=N){
+                isPossible[sum]=true;
+            }
+
+            current*=k;
+        }
+    }
 
     int t;
     cin >> t;
