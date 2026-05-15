@@ -40,7 +40,14 @@ void solve() {
     cin >> s;
 
     int r=0;
-    vector<int> ws,os;
+    
+    while(r<s.length()){
+        if(r+1<s.length() && s[r]=='v' && s[r+1]=='v'){
+            break;
+        }
+        r++;
+    }
+    vector<ll> ws,os;
 
     while(r<s.length()){
         int v=0,o=0;
