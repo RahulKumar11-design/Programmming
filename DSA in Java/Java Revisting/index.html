@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .triangle{
+
+        }
+        .square{
+            
+        }
+        .circle{
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="triangle" id="shape"></div>
+    <div>
+        <button onclick="shape('triangle')">Trinagle</button>
+        <button onclick="shape('square')">Square</button>
+        <button onclick="shape('circle')">Circle</button>
+    </div>
+    <script>
+        function shape(color){
+            const div = document.getElementById("shape");
+            
+            if(shape=='triangle'){
+                div.className = 'triangle';
+            }else if(shape=='square'){
+                div.className = 'square';
+            }else if(shape=='circle'){
+                div.className = 'circle';
+            }
+        }
+    </script>
+</body>
+</html>

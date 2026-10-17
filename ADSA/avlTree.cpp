@@ -47,7 +47,7 @@ private:
 
         if(curr->val>data){
             curr->left = searchAndBalance(curr->left,data);
-        }else{
+        }else{ 
             curr->right = searchAndBalance(curr->right,data);
         }
 
@@ -135,12 +135,12 @@ private:
             return node->h;
         }
     }
-
-    int max(int a,int b){
-        if(a>=b) return a;
-        else return b;
-    }
 };
+
+int max(int a,int b){
+    if(a>=b) return a;
+    else return b;
+}
 
 int main(){
     AVLtree tree;
